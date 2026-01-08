@@ -3,6 +3,7 @@
 /djangoapp/project/local_settings.py
 gunicorn-error-log
 /data/
+_cod_do_prof
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
