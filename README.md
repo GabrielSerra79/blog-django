@@ -42,5 +42,8 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
 
+# Config Docker
+em ```/dotenv_files/``` criar o arquivo ```.env``` com base no arquivo ```.env-example```
+
 
 
