@@ -1,3 +1,9 @@
+/djangoapp/static/
+/djangoapp/media/
+/djangoapp/project/local_settings.py
+gunicorn-error-log
+/data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -57,6 +63,7 @@ cover/
 
 # Django stuff:
 *.log
+*.pyc
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
