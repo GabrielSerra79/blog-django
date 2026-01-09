@@ -1,2 +1,2 @@
-Django>=6.0.1,<6.1
-psycopg2-binary>=2.9.11,<2.10
+Django>=4.2.1,<4.3
+psycopg2-binary>=2.9.6,<2.10
