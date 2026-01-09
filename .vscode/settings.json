@@ -49,5 +49,16 @@
   "python.defaultInterpreterPath": "./venv/bin/python",
   "python.analysis.typeCheckingMode": "basic",
   "cSpell.enabled": false,
-  "python.formatting.provider": "none"
+  "python.formatting.provider": "none",
+  "files.associations": {
+    "*.html": "django-html"
+  },
+  "[html]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[django-html]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  }
 }

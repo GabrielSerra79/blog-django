@@ -86,3 +86,7 @@ docker compose up -d #Oculto - não exibe logs
 docker compose down
 ```
 
+## Criar superuser no Django
+```bash
+docker compose run --rm djangoapp python manage.py createsuperuser
+```
