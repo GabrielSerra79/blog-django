@@ -1,6 +1,7 @@
 from django.db import models
 from utils.rands import slugify_new
 from django.contrib.auth.models import User
+from utils.images import resize_image
 
 
 class Tag(models.Model):
@@ -128,7 +129,18 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify_new(self.title)
-        return super().save(*args, **kwargs)
+
+        current_cover_name = str(self.cover.name)
+        super_save = super().save(*args, **kwargs)
+        favicon_changed = False
+
+        if self.cover:
+            favicon_changed = current_cover_name != self.cover.name
+
+        if favicon_changed:
+            resize_image(self.cover, 840)
+
+        return super_save
 
     def __str__(self) -> str:
         return self.title
