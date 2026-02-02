@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.forms import ModelForm
+from django.http import HttpRequest
 from blog.models import Tag, Category, Page, Post
 
 @admin.register(Tag)
@@ -46,8 +48,17 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = 'category', 'is_published',
     list_editable = 'is_published',
     ordering = '-id',
-    readonly_fields = 'created_at', 'updated_at', 'updated_by', 'created_by',
+    readonly_fields = 'created_at', 'updated_at', 'created_by', 'updated_by',
     prepopulated_fields = {
         "slug":('title', ),
     }
     autocomplete_fields = 'tags', 'category',
+
+    def save_model(self, request, obj, form, change) -> None:
+        if change:
+            obj.updated_by = request.user
+        else:
+            obj.created_by = request.user
+
+        obj.save()
+
