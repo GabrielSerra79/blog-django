@@ -1,4 +1,7 @@
 asgiref==3.11.0
+bleach==6.3.0
 Django==6.0.1
+django-summernote==0.8.20.0
 pillow==12.1.0
 sqlparse==0.5.5
+webencodings==0.5.1
