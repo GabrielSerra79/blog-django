@@ -85,49 +85,46 @@ class CategoryListView(PostListView):
 
         return ctx
 
-def category(request, slug):
-    posts = Post.objects.get_published().filter(category__slug=slug)  # type: ignore
 
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+class TagListView(PostListView):
+    allow_empty = False
 
-    if len(page_obj) == 0:
-        raise Http404
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset().filter(tags__slug=self.kwargs.get('slug'))
 
-    page_title = f'Cat: {page_obj[0].category.name} - '
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ctx = super().get_context_data(**kwargs)
 
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
-            'page_title': page_title,
-        }
-    )
+        tag = Tag.objects.filter(slug=self.kwargs.get('slug')).first()
+        page_title = f'Tag: {tag.name} - '  # type: ignore
 
+        ctx.update({
+            'page_title': page_title
+        })
 
-def tag(request, slug):
-    posts = Post.objects.get_published().filter(tags__slug=slug)  # type: ignore
+        return ctx
 
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+# def tag(request, slug):
+#     posts = Post.objects.get_published().filter(tags__slug=slug)  # type: ignore
 
-    if len(page_obj) == 0:
-        raise Http404
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
 
-    tag = Tag.objects.filter(slug=slug).first()
-    page_title = f'Tag: {tag.name} - '  # type: ignore
+#     if len(page_obj) == 0:
+#         raise Http404
 
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
-            'page_title': page_title,
-        }
-    )
+#     tag = Tag.objects.filter(slug=slug).first()
+#     page_title = f'Tag: {tag.name} - '  # type: ignore
+
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': page_obj,
+#             'page_title': page_title,
+#         }
+#     )
 
 
 def search(request):
