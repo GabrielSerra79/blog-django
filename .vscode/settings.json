@@ -22,8 +22,8 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
-      "source.fixAll.unusedImports": "explicit",
-      "source.organizeImports": "explicit"
+      "source.fixAll.unusedImports": "always",
+      "source.organizeImports": "always"
     }
   },
   "python.languageServer": "Pylance",

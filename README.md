@@ -4,6 +4,12 @@ Projeto criado para Curso de Python do Luiz Otávio Miranda
 
 <br>
 
+# Referências
+* [DOCS Djangoproject](https://docs.djangoproject.com/en/6.0/)
+    - [Class Based Views](https://docs.djangoproject.com/en/6.0/ref/class-based-views/)
+
+<br>
+
 # Comandos para DEV
 
 ## - Criar ambiente virtual (venv)
