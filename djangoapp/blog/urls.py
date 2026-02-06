@@ -1,7 +1,7 @@
 from blog.views import (
     CreatedByListView,
     PostListView,
-    category,
+    CategoryListView,
     page,
     post,
     search,
@@ -19,7 +19,7 @@ urlpatterns = [
          CreatedByListView.as_view(),
          name='created_by'
          ),
-    path('category/<slug:slug>/', category, name='category'),
+    path('category/<slug:slug>/', CategoryListView.as_view(), name='category'),
     path('tag/<slug:slug>/', tag, name='tag'),
     path('serach/', search, name='search'),
 ]
