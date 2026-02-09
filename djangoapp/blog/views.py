@@ -2,7 +2,6 @@ from typing import Any
 
 from blog.models import Page, Post, Tag
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse
@@ -76,9 +75,7 @@ class CategoryListView(PostListView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
-        # type: ignore
-        # type: ignore
-        page_title = f'Cat: {self.object_list[0].category.name} - ' # type: ignore
+        page_title = f'Cat: {self.object_list[0].category.name} - '# type: ignore
 
         ctx.update({
             'page_title': page_title
@@ -160,36 +157,22 @@ class PageDetailView(DetailView):
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset().filter(is_published=True)
 
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/pages/post.html'
+    slug_field = 'slug'
+    context_object_name = 'post'
 
-# def page(request, slug):
-#     page_obj = Page.objects.filter(is_published=True).filter(slug=slug).first()
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ctx = super().get_context_data(**kwargs)
+        post = self.get_object()
+        page_title = f'{post.title} - '  # type: ignore
 
-#     if page_obj is None:
-#         raise Http404
+        ctx.update({
+            'page_title': page_title,
+        })
 
-#     return render(
-#         request,
-#         'blog/pages/page.html',
-#         {
-#             'page': page_obj,
-#             'page_title': f'{page_obj.title} - ',  # type: ignore
-#         }
-#     )
+        return ctx
 
-
-def post(request, slug):
-    post_obj = Post.objects.get_published().filter(slug=slug).first()  # type: ignore
-
-    if post_obj is None:
-        raise Http404
-
-    page_title = f'Post: {post_obj.title[:15]} - '
-
-    return render(
-        request,
-        'blog/pages/post.html',
-        {
-            'post': post_obj,
-            'page_title': page_title
-        }
-    )
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset().filter(is_published=True)
