@@ -8,6 +8,10 @@ Projeto criado para Curso de Python do Luiz Otávio Miranda
 * [DOCS Djangoproject](https://docs.djangoproject.com/en/6.0/)
     - [Class Based Views](https://docs.djangoproject.com/en/6.0/ref/class-based-views/)
 
+* [Python-dotenv](https://pypi.org/project/python-dotenv/)
+
+* [Django-axes](https://django-axes.readthedocs.io/en/latest/2_installation.html)
+
 <br>
 
 # Comandos para DEV
@@ -95,4 +99,9 @@ docker compose down
 ## Criar superuser no Django
 ```bash
 docker compose run --rm djangoapp python manage.py createsuperuser
+```
+
+## Acessar help dentro do container
+```bash
+docker compose run --rm djangoapp python manage.py --help
 ```
