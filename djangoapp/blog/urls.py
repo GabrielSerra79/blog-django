@@ -3,9 +3,9 @@ from blog.views import (
     CreatedByListView,
     PostListView,
     TagListView,
+    SerachListView,
     page,
     post,
-    search,
 )
 from django.urls import path
 
@@ -21,5 +21,5 @@ urlpatterns = [
          ),
     path('category/<slug:slug>/', CategoryListView.as_view(), name='category'),
     path('tag/<slug:slug>/', TagListView.as_view(), name='tag'),
-    path('serach/', search, name='search'),
+    path('serach/', SerachListView.as_view(), name='search'),
 ]
