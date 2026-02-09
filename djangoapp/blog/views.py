@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic.list import ListView
+from django.views.generic import ListView, DetailView
 
 PER_PAGE = 9
 
@@ -77,6 +77,7 @@ class CategoryListView(PostListView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
         # type: ignore
+        # type: ignore
         page_title = f'Cat: {self.object_list[0].category.name} - ' # type: ignore
 
         ctx.update({
@@ -139,45 +140,41 @@ class SerachListView(PostListView):
         return super().get(request, *args, **kwargs)
 
 
+class PageDetailView(DetailView):
+    model = Page
+    template_name = 'blog/pages/page.html'
+    slug_field = 'slug'
+    context_object_name = 'page'
 
-# def search(request):
-#     search_value = request.GET.get('search', '').strip()
-#     posts = (
-#         Post.objects.get_published()  # type: ignore
-#         .filter(
-#             Q(title__icontains=search_value) |
-#             Q(excerpt__icontains=search_value) |
-#             Q(content__icontains=search_value)
-#         )[0:PER_PAGE]
-#     )
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ctx = super().get_context_data(**kwargs)
+        page = self.get_object()
+        page_title = f'{page.title} - '  # type: ignore
 
-#     page_title = f'Busca: {search_value[:15]} - '
+        ctx.update({
+            'page_title': page_title,
+        })
+
+        return ctx
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset().filter(is_published=True)
+
+
+# def page(request, slug):
+#     page_obj = Page.objects.filter(is_published=True).filter(slug=slug).first()
+
+#     if page_obj is None:
+#         raise Http404
 
 #     return render(
 #         request,
-#         'blog/pages/index.html',
+#         'blog/pages/page.html',
 #         {
-#             'page_obj': posts,
-#             'search_value': search_value,
-#             'page_title': page_title,
+#             'page': page_obj,
+#             'page_title': f'{page_obj.title} - ',  # type: ignore
 #         }
 #     )
-
-
-def page(request, slug):
-    page_obj = Page.objects.filter(is_published=True).filter(slug=slug).first()
-
-    if page_obj is None:
-        raise Http404
-
-    return render(
-        request,
-        'blog/pages/page.html',
-        {
-            'page': page_obj,
-            'page_title': f'{page_obj.title} - ',  # type: ignore
-        }
-    )
 
 
 def post(request, slug):
